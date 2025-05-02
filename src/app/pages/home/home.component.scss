@@ -1,0 +1,22 @@
+.home-wrapper {
+  padding-top: 80px;
+  padding-bottom: 80px;
+
+  .main-content {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    color: #343a40;
+  }
+
+  p {
+    color: #6c757d;
+  }
+
+  .btn {
+    padding: 10px 24px;
+    font-size: 18px;
+  }
+}

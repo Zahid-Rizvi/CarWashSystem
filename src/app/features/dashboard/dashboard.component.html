@@ -1,0 +1,30 @@
+<!-- dashboard.component.html -->
+<div class="dashboard-container d-flex">
+    <!-- Sidebar -->
+    <div class="sidebar p-3">
+      <div class="user-info text-white mb-4">
+        <img [src]="profileImage" class="profile-img mb-2" alt="User" />
+        <h5>{{ user?.name }}</h5>
+        <p>{{ user?.email }}</p>
+      </div>
+  
+      <ul class="nav flex-column">
+        <li class="nav-item"><a class="nav-link text-white" (click)="activeTab = 'profile'">Profile</a></li>
+        <!-- Add more options here later -->
+        <li class="nav-item"><a class="nav-link text-danger" (click)="logout()">Logout</a></li>
+      </ul>
+    </div>
+  
+    <!-- Main Content -->
+    <div class="content p-4 flex-grow-1 text-white">
+      <ng-container [ngSwitch]="activeTab">
+        <div *ngSwitchCase="'profile'">
+          <h3>User Details</h3>
+          <p><strong>Name:</strong> {{ user?.name }}</p>
+          <p><strong>Email:</strong> {{ user?.email }}</p>
+          <!-- Add more details if needed -->
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  

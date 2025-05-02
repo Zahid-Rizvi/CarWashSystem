@@ -1,0 +1,20 @@
+<app-navbar></app-navbar>
+
+<div class="container text-center home-wrapper">
+  <div class="main-content">
+    <h1 class="display-4 fw-bold mb-3">Welcome to SwiftWash</h1>
+    <p class="lead mb-4">Your ultimate solution for efficient and reliable washing services.</p>
+
+    <a
+      class="btn btn-primary btn-lg"
+      *ngIf="!authService.currentUserValue; else loggedIn"
+      routerLink="/signup"
+    >
+      Get Started
+    </a>
+
+    <ng-template #loggedIn>
+      <a class="btn btn-success btn-lg" routerLink="/washrequest">Book a Wash Service</a>
+    </ng-template>
+  </div>
+</div>

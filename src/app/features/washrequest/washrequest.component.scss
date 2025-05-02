@@ -1,0 +1,85 @@
+@import "bootstrap/scss/bootstrap";
+.wash-request-container {
+    max-width: 700px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: $white;
+    border: 1px solid $gray-300;
+    border-radius: 1rem;
+    box-shadow: 0 0.5rem 1rem rgba($black, 0.05);
+  
+    h2.title {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: $primary;
+    }
+  
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+  
+      label {
+        font-weight: 500;
+        margin-bottom: 0.3rem;
+      }
+  
+      input[type='text'],
+      input[type='number'],
+      select {
+        @extend .form-control;
+        border-radius: 0.5rem;
+      }
+  
+      small {
+        color: $danger;
+        font-size: 0.8rem;
+      }
+  
+      button[type='submit'] {
+        @extend .btn;
+        @extend .btn-primary;
+        width: fit-content;
+        align-self: flex-end;
+      }
+  
+      button[type='button'] {
+        @extend .btn;
+        @extend .btn-outline-secondary;
+        margin-top: 0.5rem;
+      }
+    }
+  
+    .car-form {
+      border: 1px dashed $secondary;
+      padding: 1rem;
+      margin-bottom: 2rem;
+      border-radius: 0.75rem;
+      background-color: rgba($secondary, 0.05);
+  
+      h4 {
+        margin-bottom: 1rem;
+        color: $secondary;
+      }
+    }
+  
+    .success-msg,
+    .error-msg {
+      margin-top: 1rem;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      text-align: center;
+      font-weight: 500;
+    }
+  
+    .success-msg {
+      background-color: $success;
+      color: $white;
+    }
+  
+    .error-msg {
+      background-color: $danger;
+      color: $white;
+    }
+  }
+  

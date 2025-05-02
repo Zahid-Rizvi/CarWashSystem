@@ -1,0 +1,18 @@
+<!-- src/app/components/navbar/navbar.component.html -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light px-4">
+  <a class="navbar-brand fw-bold" href="#">SwiftWash</a>
+  
+  <div class="ms-auto">
+    <!-- Show SignUp button if the user is not logged in -->
+    <a *ngIf="!isLoggedIn" class="btn btn-outline-primary" routerLink="/signup">SignUp</a>
+    
+    <!-- Show Profile Logo and User Name if logged in -->
+    <div *ngIf="isLoggedIn" class="profile-logo" (click)="goToProfile()">
+      <img [src]="pfp" alt="Profile Logo" class="profile-img" />
+      <span class="user-name" routerLink="/dashboard">{{ user?.name }}</span>
+    </div>
+
+    <!-- Show Logout button if logged in -->
+    <button *ngIf="isLoggedIn" class="btn btn-outline-danger ms-2" (click)="logout()">Logout</button>
+  </div>
+</nav>

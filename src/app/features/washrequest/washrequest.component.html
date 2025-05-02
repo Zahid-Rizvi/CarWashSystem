@@ -1,0 +1,80 @@
+<div class="wash-request-container">
+    <h2 class="title">Request a Car Wash</h2>
+  
+    <!-- If user has no cars, show car creation form -->
+    <div *ngIf="userCars.length === 0" class="car-form">
+      <h4>Add Your Car First</h4>
+      <form [formGroup]="carForm" (ngSubmit)="onCarSubmit()">
+        <div>
+          <label>Make</label>
+          <input formControlName="make" type="text" />
+          <small *ngIf="carForm.get('make')?.touched && carForm.get('make')?.invalid">Required</small>
+        </div>
+  
+        <div>
+          <label>Model</label>
+          <input formControlName="model" type="text" />
+          <small *ngIf="carForm.get('model')?.touched && carForm.get('model')?.invalid">Required</small>
+        </div>
+  
+        <div>
+          <label>Year</label>
+          <input formControlName="year" type="number" />
+          <small *ngIf="carForm.get('year')?.touched && carForm.get('year')?.invalid">Required</small>
+        </div>
+  
+        <button type="submit" [disabled]="carForm.invalid">Add Car</button>
+      </form>
+    </div>
+  
+    <!-- Wash Request Form -->
+    <form *ngIf="userCars.length > 0" [formGroup]="washRequestForm" (ngSubmit)="onSubmit()">
+      <div>
+        <label>Select Car</label>
+        <select formControlName="carId">
+          <option *ngFor="let car of userCars" [value]="car.carID">
+            {{ car.make }} {{ car.model }} ({{ car.year }})
+          </option>
+        </select>
+        <small *ngIf="washRequestForm.get('carId')?.touched && washRequestForm.get('carId')?.invalid">Required</small>
+      </div>
+  
+      <div>
+        <label>Select Package</label>
+        <select formControlName="washPackageId">
+          <option *ngFor="let pack of washPackages" [value]="pack.washPackageID">
+            {{ pack.packageName }} - ₹{{ pack.price }}
+          </option>
+        </select>
+        <small *ngIf="washRequestForm.get('washPackageId')?.touched && washRequestForm.get('washPackageId')?.invalid">Required</small>
+      </div>
+  
+      <div>
+        <label>Select Add-ons (Optional)</label>
+        <div *ngFor="let addon of addOns">
+          <label>
+            <input
+              type="checkbox"
+              [value]="addon.addOnID"
+              (change)="onAddOnChange($event)"
+              [checked]="washRequestForm.get('addOnIds')?.value.includes(addon.addOnID)"
+            />
+            {{ addon.addOnName }} - ₹{{ addon.price }}
+          </label>
+        </div>
+      </div>
+  
+      <div>
+        <label>Location</label>
+        <input formControlName="location" type="text" readonly />
+        <button type="button" (click)="autoFillLocation()">📍 Auto-Fill Location</button>
+        <small *ngIf="washRequestForm.get('location')?.touched && washRequestForm.get('location')?.invalid">Required</small>
+      </div>
+  
+      <button type="submit" [disabled]="washRequestForm.invalid">Submit Wash Request</button>
+    </form>
+  
+    <div *ngIf="successMessage" class="success-msg">{{ successMessage }}</div>
+    <div *ngIf="errorMessage" class="error-msg">{{ errorMessage }}</div>
+  </div>
+  
