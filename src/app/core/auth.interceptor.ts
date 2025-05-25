@@ -18,7 +18,7 @@ export class AuthInterceptor implements HttpInterceptor {
       console.log('Token found, adding to headers:', token.substring(0, 10) + '...');
       authReq = req.clone({
         setHeaders: {
-          Authorization: `${token}`
+          Authorization: `Bearer ${token}`
         }
       });
     } else {

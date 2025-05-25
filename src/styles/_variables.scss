@@ -1,0 +1,37 @@
+// Theme Colors
+$dark-bg: #FFF;
+$light-text: #f0f0f0; // Slightly brighter for better contrast
+$muted-text: #a3a3a3; // Slightly brighter muted text
+$gradient-start: #2563eb;
+$gradient-end: #0891b2;
+$cta-green: #FFD166; // Good accent color that works with your blues
+$border-color: #222;
+$hover-bg: #151515; // Slightly lighter for subtle hover states
+
+// Add a few more useful variables
+$card-bg: #121212; // For card/container backgrounds
+$overlay-bg: rgba(8, 8, 8, 0.85); // For modals/overlays
+$shadow-color: rgba(0, 242, 254, 0.08); // Subtle blue shadow
+
+// Typography
+$font-family-base: 'Inter', sans-serif;
+$heading-font-weight: 700;
+
+// Add mixin for gradient text
+@mixin gradient-text {
+  background: linear-gradient(to right, $gradient-start, $gradient-end);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+// Add mixin for gradient backgrounds
+@mixin gradient-bg {
+  background: linear-gradient(to right, $gradient-start, $gradient-end);
+}
+
+// Add mixin for subtle blue glow effects
+@mixin blue-glow {
+  box-shadow: 0 0 15px rgba(0, 242, 254, 0.15);
+}

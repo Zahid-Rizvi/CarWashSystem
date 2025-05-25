@@ -14,7 +14,7 @@ export interface AddOn {
   providedIn: 'root'
 })
 export class AddOnService {
-  private baseUrl = `${environment.apiUrl}/api/Auth/AddOn`; // Replace with your actual API base URL
+  private baseUrl = `${environment.apiUrl}/api/AddOn`; // Replace with your actual API base URL
 
   constructor(private http: HttpClient) {}
 

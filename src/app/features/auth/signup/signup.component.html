@@ -1,5 +1,5 @@
 <div class="signup-container">
-  <h2>Signup</h2>
+  <h2>Create Account</h2>
   <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label for="name">Name</label>
@@ -98,7 +98,7 @@
     <!-- Button to trigger location fetching -->
     <div *ngIf="signupForm.get('role')?.value === 'Washer'" class="form-group">
       <button type="button" class="btn btn-secondary w-100" (click)="getLocation()" [disabled]="loading">
-        Get Location
+        Get Current Location
       </button>
       <div *ngIf="loading" class="loading-message">Fetching location...</div>
       <div *ngIf="errorMessage" class="error">
@@ -107,11 +107,11 @@
     </div>
 
     <button type="submit" class="btn btn-primary w-100" [disabled]="signupForm.invalid">
-      Signup
+      Create Account
     </button>
   </form>
 
-  <p class="mt-3">
+  <p>
     Already have an account?
     <a routerLink="/login">Login</a>
   </p>

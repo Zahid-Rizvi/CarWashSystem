@@ -7,7 +7,7 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class WashRequestService {
-  private baseUrl = `${environment.apiUrl}/api/washrequest`; // Adjust as needed
+  private baseUrl = `${environment.apiUrl}/api/Washrequest`; // Adjust as needed
 
   constructor(private http: HttpClient) {}
 

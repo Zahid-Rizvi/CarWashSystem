@@ -1,0 +1,10 @@
+@import '../../../styles/variables';
+
+.gradient-text {
+  @include gradient-text;
+}
+
+.card {
+  background-color: $dark-bg;
+  border: 1px solid $border-color;
+}

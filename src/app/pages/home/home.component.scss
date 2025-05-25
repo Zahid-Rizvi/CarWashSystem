@@ -1,22 +1,104 @@
-.home-wrapper {
-  padding-top: 80px;
-  padding-bottom: 80px;
+@import "bootstrap/scss/bootstrap";
+@import '../../../styles/variables';
 
-  .main-content {
-    max-width: 600px;
-    margin: 0 auto;
+
+.home-wrapper {
+  background-color: #f0f9ff;
+  min-height: calc(100vh - 80px);
+  color: $light-text;
+
+  .row {
+    min-height: 80vh;
   }
 
   h1 {
-    color: #343a40;
+    font-size: 3rem;
+    line-height: 1.2;
+  }
+
+  .gradient-text {
+    @include gradient-text;
   }
 
   p {
-    color: #6c757d;
+    color: $muted-text;
+    font-size: 1.3rem;
+    line-height: 1.6;
   }
 
   .btn {
-    padding: 10px 24px;
-    font-size: 18px;
+    font-size: 1.1rem;
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+
+    &.btn-primary,
+    &.btn-success {
+      background: $cta-green;
+      border: none;
+      color: #000;
+      box-shadow: 0 4px 10px rgba(0, 230, 118, 0.3);
+
+      &:hover {
+        background: lighten($cta-green, 10%);
+      }
+    }
+  }
+
+  .hero-image {
+    max-width: 90%;
+    border: none;
+    height: 500px;
+    // border-radius: 20rem;
+    // box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  .left,
+  .right{
+    width: 50%;
   }
 }
+
+.how-scroll-container {
+  display: flex;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.how-card {
+  background-color: $card-bg;
+  border: 1px solid $border-color;
+  border-radius: 1rem;
+  min-width: 250px;
+  max-width: 300px;
+  scroll-snap-align: start;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  @include blue-glow;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px $shadow-color;
+  }
+
+  i {
+    color: $gradient-end;
+  }
+
+  h5 {
+    font-weight: $heading-font-weight;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    color: $muted-text;
+    font-size: 0.95rem;
+  }
+}
+

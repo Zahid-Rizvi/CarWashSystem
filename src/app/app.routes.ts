@@ -15,6 +15,10 @@ export const routes: Routes = [
     path: 'washrequest',
     loadComponent: () => import('./features/washrequest/washrequest.component').then(m => m.WashRequestComponent)
   },
+  {
+    path: 'washpackages',
+    loadComponent: () => import('./pages/washpackages/washpackages.component').then(m=>m.WashPackagesComponent)
+  }
 //   {
 //     path: '**',
 //     loadComponent: () =>

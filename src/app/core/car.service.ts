@@ -13,7 +13,7 @@ export class CarService {
 
   // Get cars for the logged-in user
   getUserCars(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/Cars`);
+    return this.http.get<any[]>(`${this.baseUrl}`);
   }
 
   // Add a new car

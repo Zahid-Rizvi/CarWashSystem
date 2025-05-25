@@ -1,20 +1,93 @@
 <app-navbar></app-navbar>
 
-<div class="container text-center home-wrapper">
-  <div class="main-content">
-    <h1 class="display-4 fw-bold mb-3">Welcome to SwiftWash</h1>
-    <p class="lead mb-4">Your ultimate solution for efficient and reliable washing services.</p>
+<!-- Hero Section -->
+<div class="container home-wrapper">
+  <div class="row align-items-center py-5">
+    <!-- Left: Text Content -->
+    <div class="col-md-6 text-md-start text-center left">
+      <h1 class="fw-bold mb-4 gradient-text">WELCOME TO SWIFTWASH</h1>
+      <p class="lead mb-5">
+        Experience hassle-free car washes right at your doorstep. Choose a package, schedule a wash, and let our professionals handle the rest — fast, eco-friendly, and always on time.
+      </p>
 
-    <a
-      class="btn btn-primary btn-lg"
-      *ngIf="!authService.currentUserValue; else loggedIn"
-      routerLink="/signup"
-    >
-      Get Started
-    </a>
+      <a
+        class="btn btn-primary btn-lg"
+        *ngIf="!authService.currentUserValue; else loggedIn"
+        routerLink="/signup"
+      >
+        Start for Free <i class="bi bi-arrow-right ms-2"></i>
+      </a>
 
-    <ng-template #loggedIn>
-      <a class="btn btn-success btn-lg" routerLink="/washrequest">Book a Wash Service</a>
-    </ng-template>
+      <ng-template #loggedIn>
+        <a class="btn btn-success btn-lg" routerLink="/washrequest">
+          Book a Wash Service <i class="bi bi-arrow-right ms-2"></i>
+        </a>
+      </ng-template>
+    </div>
+
+    <!-- Right: Image -->
+    <div class="col-md-6 text-center mt-4 mt-md-0 right">
+      <img src="assets/hero-img1.png" alt="Car Wash Illustration" class="img-fluid hero-image" />
+    </div>
   </div>
 </div>
+
+<!-- How It Works Section -->
+<section id="how-it-works" class="py-5">
+  <div class="container">
+    <h2 class="gradient-text text-center mb-5">How It Works</h2>
+    <div class="how-scroll-container d-flex overflow-auto gap-4">
+      <div class="how-card card text-light text-center px-4 py-4 flex-shrink-0">
+        <i class="bi bi-person-plus fs-1 mb-3 text-info"></i>
+        <h5>Sign Up</h5>
+        <p>Create your free account to get started with SwiftWash.</p>
+      </div>
+      <div class="how-card card text-light text-center px-4 py-4 flex-shrink-0">
+        <i class="bi bi-card-list fs-1 mb-3 text-success"></i>
+        <h5>Choose Package</h5>
+        <p>Select from a variety of wash packages tailored to your needs.</p>
+      </div>
+      <div class="how-card card text-light text-center px-4 py-4 flex-shrink-0">
+        <i class="bi bi-calendar-check fs-1 mb-3 text-warning"></i>
+        <h5>Schedule</h5>
+        <p>Pick a convenient time and location — we’ll be there!</p>
+      </div>
+      <div class="how-card card text-light text-center px-4 py-4 flex-shrink-0">
+        <i class="bi bi-check2-circle fs-1 mb-3 text-primary"></i>
+        <h5>Enjoy the Wash</h5>
+        <p>Relax while your car gets professionally cleaned.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="py-5">
+  <div class="container">
+    <h2 class="gradient-text text-center mb-5">Why Choose Us</h2>
+    <div class="how-scroll-container d-flex overflow-auto gap-4">
+      <div class="how-card card text-light text-center px-4 py-4 flex-shrink-0">
+        <i class="bi bi-shield-check fs-1 mb-3 text-success"></i>
+        <h5>Trusted Washers</h5>
+        <p>All washers are background-verified and customer-rated.</p>
+      </div>
+      <div class="how-card card text-light text-center px-4 py-4 flex-shrink-0">
+        <i class="bi bi-lightning-charge fs-1 mb-3 text-warning"></i>
+        <h5>Instant Booking</h5>
+        <p>Schedule a wash in just a few taps — anytime, anywhere.</p>
+      </div>
+      <div class="how-card card text-light text-center px-4 py-4 flex-shrink-0">
+        <i class="bi bi-droplet fs-1 mb-3 text-info"></i>
+        <h5>Eco-Friendly Products</h5>
+        <p>We use biodegradable, non-toxic products that care for your car and the planet.</p>
+      </div>
+      <div class="how-card card text-light text-center px-4 py-4 flex-shrink-0">
+        <i class="bi bi-credit-card fs-1 mb-3 text-primary"></i>
+        <h5>Secure Payments</h5>
+        <p>Pay securely online with multiple convenient options.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<app-footer></app-footer>

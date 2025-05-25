@@ -1,18 +1,28 @@
-<!-- src/app/components/navbar/navbar.component.html -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light px-4">
-  <a class="navbar-brand fw-bold" href="#">SwiftWash</a>
-  
-  <div class="ms-auto">
-    <!-- Show SignUp button if the user is not logged in -->
-    <a *ngIf="!isLoggedIn" class="btn btn-outline-primary" routerLink="/signup">SignUp</a>
+<nav class="navbar navbar-expand-lg custom-navbar px-4">
+  <a class="navbar-brand gradient-text" routerLink="/">SwiftWash</a>
+
+  <div class="ms-auto d-flex align-items-center">
+    <!-- Wash Packages Link for logged in users -->
+    <a *ngIf="isLoggedIn" class="nav-link text-light me-3" routerLink="/washpackages">
+      Wash Packages
+    </a>
+
+    <!-- Sign Up CTA for guests -->
+    <a *ngIf="isLoggedIn" class="nav-link text-light me-3" href="#how-it-works">
+      How It Works
+    </a>
+    <a *ngIf="isLoggedIn" class="nav-link text-light me-3" href="#features">
+      Features
+    </a>
+    <a *ngIf="!isLoggedIn" class="btn btn-cta" routerLink="/signup">
+      Sign Up <i class="bi bi-arrow-right ms-2"></i>
+    </a>
     
-    <!-- Show Profile Logo and User Name if logged in -->
+    <!-- Profile info for logged in users -->
     <div *ngIf="isLoggedIn" class="profile-logo" (click)="goToProfile()">
       <img [src]="pfp" alt="Profile Logo" class="profile-img" />
       <span class="user-name" routerLink="/dashboard">{{ user?.name }}</span>
     </div>
-
-    <!-- Show Logout button if logged in -->
-    <button *ngIf="isLoggedIn" class="btn btn-outline-danger ms-2" (click)="logout()">Logout</button>
   </div>
+  
 </nav>

@@ -1,0 +1,41 @@
+// src/app/components/footer/footer.component.scss
+@import "bootstrap/scss/bootstrap";
+@import '../../../styles/variables';
+
+.footer {
+  background-color: $dark-bg;
+  color: $light-text;
+  border-top: 1px solid $border-color;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+
+  .lead {
+    color: $light-text; // Override Bootstrap's .lead color if needed
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .social-icons {
+    a {
+      color: $light-text;
+      margin: 0 12px;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: $gradient-start;
+      }
+
+      i {
+        font-size: 1.25rem;
+      }
+    }
+  }
+
+  @media (max-width: 576px) {
+    .social-icons {
+      margin-top: 0.5rem;
+    }
+  }
+}
+
+

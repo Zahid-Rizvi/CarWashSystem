@@ -14,6 +14,7 @@ export class NavbarComponent implements OnInit {
   isLoggedIn = false;
   user: any;
   pfp:string = 'assets/Profile.png';
+  logo:string = 'assets/logo.png';
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -30,9 +31,4 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['/dashboard']);
   }
 
-  // Log out and reset the state
-  logout(): void {
-    this.authService.logout();
-    this.router.navigate(['/login']);
-  }
 }

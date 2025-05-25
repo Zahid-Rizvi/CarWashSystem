@@ -27,6 +27,8 @@ export class WashRequestComponent implements OnInit {
   successMessage: string | null = null;
   errorMessage: string | null = null;
 
+  carAdded = false;  // Flag to track if the car was added or skipped
+
   constructor(
     private fb: FormBuilder,
     private carService: CarService,
@@ -35,9 +37,11 @@ export class WashRequestComponent implements OnInit {
     private washPackageService: WashPackageService
   ) {
     this.carForm = this.fb.group({
-      make: ['', Validators.required],
+      brand: ['', Validators.required],
       model: ['', Validators.required],
-      year: ['', [Validators.required, Validators.min(1900)]]
+      year: ['', [Validators.required, Validators.min(1900)]],
+      color: ['', Validators.required],
+      licensePlate: ['', Validators.required]
     });
 
     this.washRequestForm = this.fb.group({
@@ -89,10 +93,15 @@ export class WashRequestComponent implements OnInit {
           this.successMessage = 'Car added successfully!';
           this.carForm.reset();
           this.loadUserCars();
+          this.carAdded = true; // Mark car as added
         },
         error: () => this.errorMessage = 'Failed to add car.'
       });
     }
+  }
+
+  skipCarForm() {
+    this.carAdded = true; // Mark car as skipped
   }
 
   onAddOnChange(event: any) {
@@ -150,3 +159,4 @@ export class WashRequestComponent implements OnInit {
     }
   }
 }
+

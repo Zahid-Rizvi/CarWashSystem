@@ -1,64 +1,120 @@
-// Import Bootstrap variables (optional, if you're customizing themes)
 @import "bootstrap/scss/bootstrap";
+@import '../../../../styles/variables';
 
 .signup-container {
-  max-width: 420px;
+  max-width: 480px;
   margin: 3rem auto;
-  padding: 2rem;
-  background-color: #fff;
+  padding: 2.5rem;
+  background-color: $dark-bg;
   border-radius: 1rem;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid $border-color;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
 
   h2 {
     text-align: center;
-    color: $primary;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
+    font-weight: 700;
+    @include gradient-text;
   }
 
   form {
     .form-group {
-      margin-bottom: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      color: $light-text;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      display: block;
     }
 
     .form-control {
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid $border-color;
       border-radius: 0.5rem;
-      transition: border-color 0.3s;
+      color: $light-text;
+      padding: 0.75rem 1rem;
+      transition: all 0.3s ease;
 
       &:focus {
-        border-color: $primary;
-        box-shadow: none;
+        border-color: $gradient-start;
+        box-shadow: 0 0 0 2px rgba($gradient-start, 0.2);
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      &::placeholder {
+        color: rgba($light-text, 0.5);
       }
 
       &.ng-invalid.ng-touched {
-        border-color: $danger;
+        border-color: #ff4d4d;
       }
     }
 
     .error {
       font-size: 0.875rem;
-      color: $danger;
-      margin-top: 0.25rem;
+      color: #ff4d4d;
+      margin-top: 0.5rem;
     }
 
     button {
-      margin-top: 1rem;
-      padding: 0.6rem 1.5rem;
+      margin-top: 1.5rem;
+      padding: 0.75rem 1.5rem;
       font-weight: 600;
-      border-radius: 0.5rem;
+      border-radius: 2rem;
+      border: none;
+      transition: all 0.3s ease;
+
+      &.btn-primary {
+        background: $cta-green;
+        color: #000;
+
+        &:hover:not([disabled]) {
+          background: lighten($cta-green, 10%);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba($cta-green, 0.3);
+        }
+
+        &:disabled {
+          background: rgba($cta-green, 0.5);
+          cursor: not-allowed;
+        }
+      }
+
+      &.btn-secondary {
+        background: #333;
+        color: $light-text;
+        margin-bottom: 1rem;
+
+        &:hover:not([disabled]) {
+          background: #444;
+        }
+      }
     }
   }
 
   p {
     text-align: center;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
+    color: $muted-text;
 
     a {
-      color: $primary;
+      color: $gradient-start;
       text-decoration: none;
+      margin-left: 0.5rem;
+      font-weight: 500;
 
       &:hover {
         text-decoration: underline;
       }
     }
+  }
+
+  .loading-message {
+    font-size: 0.875rem;
+    color: $muted-text;
+    margin-top: 0.5rem;
+    text-align: center;
   }
 }

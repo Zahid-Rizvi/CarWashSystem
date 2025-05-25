@@ -1,2 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
 @import "bootstrap/scss/bootstrap";
+@import './styles/variables';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+// Global styles
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: $dark-bg;
+  font-family: $font-family-base;
+  color: $light-text;
+  margin: 0;
+  padding: 0;
+}
+
+// Global utility classes
+.gradient-text {
+  @include gradient-text;
+}
+

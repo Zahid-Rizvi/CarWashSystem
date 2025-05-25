@@ -1,30 +1,74 @@
-<!-- dashboard.component.html -->
 <div class="dashboard-container d-flex">
-    <!-- Sidebar -->
-    <div class="sidebar p-3">
-      <div class="user-info text-white mb-4">
-        <img [src]="profileImage" class="profile-img mb-2" alt="User" />
-        <h5>{{ user?.name }}</h5>
-        <p>{{ user?.email }}</p>
-      </div>
-  
-      <ul class="nav flex-column">
-        <li class="nav-item"><a class="nav-link text-white" (click)="activeTab = 'profile'">Profile</a></li>
-        <!-- Add more options here later -->
-        <li class="nav-item"><a class="nav-link text-danger" (click)="logout()">Logout</a></li>
-      </ul>
+  <!-- Sidebar -->
+  <div class="sidebar p-3">
+    <div class="user-info text-white mb-4">
+      <img [src]="profileImage" class="profile-img mb-2" alt="User" />
+      <h5>{{ user?.name }}</h5>
+      <p>{{ user?.email }}</p>
     </div>
-  
-    <!-- Main Content -->
-    <div class="content p-4 flex-grow-1 text-white">
-      <ng-container [ngSwitch]="activeTab">
-        <div *ngSwitchCase="'profile'">
-          <h3>User Details</h3>
+
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link" [class.active]="activeTab === 'profile'" (click)="activeTab = 'profile'">
+          <i class="bi bi-person me-2"></i>Profile
+        </a>
+      </li>
+      <!-- Add more options here later -->
+      <li class="nav-item">
+        <a class="nav-link text-danger" (click)="logout()">
+          <i class="bi bi-box-arrow-right me-2"></i>Logout
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <div class="content p-4 flex-grow-1 text-white">
+    <div class="top-bar d-flex justify-content-end align-items-center">
+      <!-- Updated notification dropdown section -->
+      <div class="notification-wrapper position-relative me-3" (click)="toggleDropdown()">
+        <i class="bi bi-bell fs-5"></i>
+        <span *ngIf="unreadCount > 0" class="badge position-absolute top-0 start-100 translate-middle p-1 rounded-circle">
+          {{ unreadCount }}
+        </span>
+
+        <div *ngIf="showDropdown" class="dropdown-menu show shadow">
+          <div *ngIf="notifications.length === 0" class="dropdown-item text-center">
+            <p class="mb-0">No notifications</p>
+          </div>
+          
+          <div *ngFor="let notif of notifications" class="dropdown-item">
+            <div class="d-flex justify-content-between">
+              <div class="w-100">
+                <p class="mb-1">{{ notif.message }}</p>
+                <small class="text-muted">{{ notif.timestamp | date:'short' }}</small>
+              </div>
+            </div>
+        
+            <!-- Show Accept/Reject only for actionable washer notifications -->
+            <div *ngIf="(notif.notificationType === 'WashRequestNearby' || notif.notificationType === 'WashRequestReassigned') && !notif.readStatus" class="mt-2 d-flex justify-content-end">
+              <button class="btn btn-sm btn-success me-2" (click)="acceptRequest(notif)">Accept</button>
+              <button class="btn btn-sm btn-danger" (click)="rejectRequest(notif)">Reject</button>
+            </div>
+
+            <!-- Otherwise, show mark as read -->
+            <div *ngIf="notif.notificationType === 'WasherAccepted' && !notif.readStatus" class="mt-2 d-flex justify-content-end">
+              <button class="btn btn-sm btn-link text-decoration-none" (click)="markAsRead(notif, $event)">Mark as read</button>
+            </div>              
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <ng-container [ngSwitch]="activeTab">
+      <div *ngSwitchCase="'profile'">
+        <h3>User Details</h3>
+        <div class="user-details mt-4">
           <p><strong>Name:</strong> {{ user?.name }}</p>
           <p><strong>Email:</strong> {{ user?.email }}</p>
           <!-- Add more details if needed -->
         </div>
-      </ng-container>
-    </div>
+      </div>
+    </ng-container>
   </div>
-  
+</div>
