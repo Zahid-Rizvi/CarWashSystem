@@ -6,7 +6,7 @@
     <!-- Left: Text Content -->
     <div class="col-md-6 text-md-start text-center left">
       <h1 class="fw-bold mb-4 gradient-text">WELCOME TO SWIFTWASH</h1>
-      <p class="lead mb-5">
+      <p class="mb-5">
         Experience hassle-free car washes right at your doorstep. Choose a package, schedule a wash, and let our professionals handle the rest — fast, eco-friendly, and always on time.
       </p>
 
@@ -32,10 +32,53 @@
   </div>
 </div>
 
+<!-- Notification Floating Button with Count -->
+<button
+  class="btn btn-primary notification-fab position-fixed"
+  (click)="toggleNotifications()"
+  *ngIf="authService.currentUserValue"
+>
+  <i class="bi bi-bell fs-4"></i>
+
+  <!-- Badge for unread notifications -->
+  <span
+    *ngIf="unreadCount > 0"
+    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+  >
+    {{ unreadCount }}
+  </span>
+</button>
+
+
+
+<!-- Notification Panel -->
+<div class="notification-panel p-3 bg-white border shadow" *ngIf="showNotifications">
+  <h5 class="mb-3">Notifications</h5>
+  <div *ngIf="notifications.length === 0">
+    <p>No notifications.</p>
+  </div>
+  <div *ngFor="let notif of notifications" class="mb-3 p-2 border rounded bg-light text-dark">
+    <p class="mb-1">{{ notif.message }}</p>
+    <small class="text-muted">{{ notif.timestamp | date:'short' }}</small>
+
+    <!-- <div *ngIf="(notif.notificationType === 'WashRequestNearby' || notif.notificationType === 'WashRequestReassigned') && !notif.readStatus" class="mt-2 d-flex justify-content-end">
+      <button class="btn btn-sm btn-success me-2" (click)="acceptWashRequest(notif)">Accept</button>
+      <button class="btn btn-sm btn-danger" (click)="rejectWashRequest(notif)">Reject</button>
+    </div> -->
+
+    <div *ngIf="(notif.notificationType === 'WasherAccepted' || notif.notificationType === 'WashRequestNearby') && !notif.readStatus" class="mt-2 d-flex justify-content-end">
+      <button class="btn btn-sm btn-link text-decoration-none" (click)="markAsRead(notif)">Mark as read</button>
+    </div>
+  </div>
+</div>
+
+
+
+<hr>
 <!-- How It Works Section -->
 <section id="how-it-works" class="py-5">
   <div class="container">
-    <h2 class="gradient-text text-center mb-5">How It Works</h2>
+    <h2 class="fw-bold gradient-text mb-5 cthead">How It Works</h2>
     <div class="how-scroll-container d-flex overflow-auto gap-4">
       <div class="how-card card text-light text-center px-4 py-4 flex-shrink-0">
         <i class="bi bi-person-plus fs-1 mb-3 text-info"></i>
@@ -60,11 +103,11 @@
     </div>
   </div>
 </section>
-
+<hr>
 <!-- Features Section -->
 <section id="features" class="py-5">
   <div class="container">
-    <h2 class="gradient-text text-center mb-5">Why Choose Us</h2>
+    <h2 class="fw-bold gradient-text mb-5 cthead">Why Choose Us</h2>
     <div class="how-scroll-container d-flex overflow-auto gap-4">
       <div class="how-card card text-light text-center px-4 py-4 flex-shrink-0">
         <i class="bi bi-shield-check fs-1 mb-3 text-success"></i>

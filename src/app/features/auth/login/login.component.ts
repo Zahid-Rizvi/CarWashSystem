@@ -36,24 +36,31 @@ export class LoginComponent {
   }
 
   onSubmit() {
-    this.errorMessage = '';
-    if (this.loginForm.invalid) {
-      this.errorMessage = 'Please fill in all required fields.';
-      return;
-    }
-
-    const { email, password } = this.loginForm.value;
-    this.loading = true;
-
-    this.authService.login(email, password).subscribe({
-      next: () => {
-        this.loading = false;
-        this.router.navigate(['']);
-      },
-      error: (err) => {
-        this.loading = false;
-        this.errorMessage = err.error?.message || 'Login failed.';
-      },
-    });
+  this.errorMessage = '';
+  if (this.loginForm.invalid) {
+    this.errorMessage = 'Please fill in all required fields.';
+    return;
   }
+
+  const { email, password } = this.loginForm.value;
+  this.loading = true;
+
+  this.authService.login(email, password).subscribe({
+    next: (response) => {
+      this.loading = false;
+      if (response.mustChangePassword) {
+        // Redirect washer to change-password page immediately
+        this.router.navigate(['/change-password']);
+      } else {
+        // Normal navigation
+        this.router.navigate(['']);
+      }
+    },
+    error: (err) => {
+      this.loading = false;
+      this.errorMessage = err.error?.message || 'Login failed.';
+    },
+  });
+}
+
 }

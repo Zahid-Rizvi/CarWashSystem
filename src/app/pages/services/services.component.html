@@ -1,0 +1,51 @@
+<app-navbar></app-navbar>
+
+<div class="container py-5 services-container">
+
+  <!-- Loading Spinner -->
+  <div *ngIf="loading" class="text-center my-5">
+    <div class="spinner-border text-primary" role="status"></div>
+    <p class="mt-3">Loading services...</p>
+  </div>
+
+  <!-- Error Alert -->
+  <div *ngIf="errorMessage" class="alert alert-danger text-center my-4">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Wash Packages Section -->
+  <ng-container *ngIf="!loading && !errorMessage">
+    <section class="mb-5">
+      <h2 class="gradient-text cthead mb-4 text-center">WASH PACKAGES</h2>
+      <div class="row g-4">
+        <div class="col-sm-6 col-lg-4" *ngFor="let pkg of washPackages">
+          <div class="card service-card h-100 border-1 shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">{{ pkg.packageName }}</h5>
+              <p class="card-text">{{ pkg.description }}</p>
+              <p class="card-text fw-semibold price">₹{{ pkg.price.toFixed(2) }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Add-Ons Section -->
+    <section>
+      <h2 class="gradient-text cthead mb-4 text-center">ADD-ONS</h2>
+      <div class="row g-4">
+        <div class="col-sm-6 col-lg-4" *ngFor="let addOn of addOns">
+          <div class="card service-card h-100 border-1 shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">{{ addOn.name }}</h5>
+              <p class="card-text">{{ addOn.description }}</p>
+              <p class="card-text fw-semibold price">₹{{ addOn.price.toFixed(2) }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </ng-container>
+</div>
+
+<app-footer></app-footer>

@@ -27,11 +27,4 @@ export class NotificationService {
     return this.http.put(`${environment.apiUrl}/api/Notification/mark-as-read/${notificationId}`, {});
   }
 
-  acceptWashRequest(washRequestId: string): Observable<any> {
-    return this.http.put(`${environment.apiUrl}/api/WasherWashRequest/accept/${washRequestId}`, {});
-  }
-
-  rejectWashRequest(washRequestId: string): Observable<any> {
-    return this.http.put(`${environment.apiUrl}/api/WasherWashRequest/reject/${washRequestId}`, {});
-  }
 }

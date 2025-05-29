@@ -1,118 +1,148 @@
-<div class="signup-container">
-  <h2>Create Account</h2>
-  <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-      <label for="name">Name</label>
-      <input
-        id="name"
-        type="text"
-        class="form-control"
-        formControlName="name"
-        placeholder="Enter full name"
-      />
-      <div *ngIf="signupForm.get('name')?.touched && signupForm.get('name')?.invalid" class="error">
-        Name is required
+<div class="signup-page">
+  <!-- Left Side - Slogan -->
+  <div class="signup-left">
+    <div class="slogan-content">
+      <!-- <div class="slogan-icon">
+        <i class="fas fa-car-wash"></i>
+      </div> -->
+      <h1 class="slogan-title">Your car's best day starts here</h1>
+      <p class="slogan-subtitle">Join thousands of satisfied customers and professional washers. Create your account and start your journey with us today.</p>
+      <div class="slogan-features">
+        <div class="feature-item">
+          <span>Premium Quality Service</span>
+        </div>
+        <div class="feature-item">
+          <span>Quick & Efficient</span>
+        </div>
+        <div class="feature-item">
+          <span>Safe & Secure</span>
+        </div>
       </div>
     </div>
+  </div>
 
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input
-        id="email"
-        type="email"
-        class="form-control"
-        formControlName="email"
-        placeholder="Enter email"
-      />
-      <div *ngIf="signupForm.get('email')?.touched && signupForm.get('email')?.invalid" class="error">
-        A valid email is required
-      </div>
+  <!-- Right Side - Signup Form -->
+  <div class="signup-right">
+    <div class="signup-container">
+      <h2 class="cthead">Create Account</h2>
+      <p class="signup-subtitle">Join our community today</p>
+      
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <!-- <label for="name">Name</label> -->
+          <input
+            id="name"
+            type="text"
+            class="form-control"
+            formControlName="name"
+            placeholder="Enter full name"
+          />
+          <div *ngIf="signupForm.get('name')?.touched && signupForm.get('name')?.invalid" class="error">
+            Name is required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <!-- <label for="email">Email</label> -->
+          <input
+            id="email"
+            type="email"
+            class="form-control"
+            formControlName="email"
+            placeholder="Enter email"
+          />
+          <div *ngIf="signupForm.get('email')?.touched && signupForm.get('email')?.invalid" class="error">
+            A valid email is required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <!-- <label for="contactInfo">Contact Info</label> -->
+          <input
+            id="contactInfo"
+            type="text"
+            class="form-control"
+            formControlName="contactInfo"
+            placeholder="Mobile or other contact"
+          />
+        </div>
+
+        <div class="form-group">
+          <!-- <label for="profilePicture">Profile Picture</label> -->
+          <input
+            type="file"
+            id="profilePicture"
+            class="form-control"
+            (change)="onFileSelected($event)"
+            accept="image/*"
+          />
+        </div>
+
+        <div class="form-group">
+          <!-- <label for="role">Role</label> -->
+          <select id="role" class="form-control" formControlName="role">
+            <option value="Customer">Customer</option>
+            <option value="Washer">Washer</option>
+          </select>
+        </div>
+
+        <!-- Show password only if role is Customer -->
+        <div class="form-group" *ngIf="signupForm.get('role')?.value === 'Customer'">
+          <!-- <label for="password">Password</label> -->
+          <input
+            id="password"
+            type="password"
+            class="form-control"
+            formControlName="password"
+            placeholder="Create password"
+          />
+          <div *ngIf="signupForm.get('password')?.touched && signupForm.get('password')?.invalid" class="error">
+            Password must be at least 6 characters
+          </div>
+        </div>
+
+        <!-- Location inputs for Washer -->
+        <div class="form-group" *ngIf="signupForm.get('role')?.value === 'Washer'">
+          <!-- <label for="latitude">Latitude</label> -->
+          <input
+            id="latitude"
+            type="number"
+            class="form-control"
+            formControlName="latitude"
+            placeholder="Enter latitude"
+          />
+        </div>
+
+        <div class="form-group" *ngIf="signupForm.get('role')?.value === 'Washer'">
+          <!-- <label for="longitude">Longitude</label> -->
+          <input
+            id="longitude"
+            type="number"
+            class="form-control"
+            formControlName="longitude"
+            placeholder="Enter longitude"
+          />
+        </div>
+
+        <div *ngIf="signupForm.get('role')?.value === 'Washer'" class="form-group">
+          <button type="button" class="btn btn-secondary w-100" (click)="getLocation()" [disabled]="loading">
+            Get Current Location
+          </button>
+          <div *ngIf="loading" class="loading-message">Fetching location...</div>
+          <div *ngIf="errorMessage" class="error">
+            {{ errorMessage }}
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100" [disabled]="signupForm.invalid">
+          Create Account
+        </button>
+      </form>
+
+      <p>
+        Already have an account?
+        <a routerLink="/login">Login</a>
+      </p>
     </div>
-
-    <div class="form-group">
-      <label for="password">Password</label>
-      <input
-        id="password"
-        type="password"
-        class="form-control"
-        formControlName="password"
-        placeholder="Create password"
-      />
-      <div *ngIf="signupForm.get('password')?.touched && signupForm.get('password')?.invalid" class="error">
-        Password must be at least 6 characters
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label for="contactInfo">Contact Info</label>
-      <input
-        id="contactInfo"
-        type="text"
-        class="form-control"
-        formControlName="contactInfo"
-        placeholder="Mobile or other contact"
-      />
-    </div>
-
-    <div class="form-group">
-      <label for="profilePicture">Profile Picture URL</label>
-      <input
-        id="profilePicture"
-        type="text"
-        class="form-control"
-        formControlName="profilePicture"
-        placeholder="http://example.com/image.jpg"
-      />
-    </div>
-
-    <div class="form-group">
-      <label for="role">Role</label>
-      <select id="role" class="form-control" formControlName="role">
-        <option value="Customer">Customer</option>
-        <option value="Washer">Washer</option>
-      </select>
-    </div>
-
-    <div class="form-group" *ngIf="signupForm.get('role')?.value === 'Washer'">
-      <label for="latitude">Latitude</label>
-      <input
-        id="latitude"
-        type="number"
-        class="form-control"
-        formControlName="latitude"
-        placeholder="Enter latitude"
-      />
-    </div>
-
-    <div class="form-group" *ngIf="signupForm.get('role')?.value === 'Washer'">
-      <label for="longitude">Longitude</label>
-      <input
-        id="longitude"
-        type="number"
-        class="form-control"
-        formControlName="longitude"
-        placeholder="Enter longitude"
-      />
-    </div>
-
-    <!-- Button to trigger location fetching -->
-    <div *ngIf="signupForm.get('role')?.value === 'Washer'" class="form-group">
-      <button type="button" class="btn btn-secondary w-100" (click)="getLocation()" [disabled]="loading">
-        Get Current Location
-      </button>
-      <div *ngIf="loading" class="loading-message">Fetching location...</div>
-      <div *ngIf="errorMessage" class="error">
-        {{ errorMessage }}
-      </div>
-    </div>
-
-    <button type="submit" class="btn btn-primary w-100" [disabled]="signupForm.invalid">
-      Create Account
-    </button>
-  </form>
-
-  <p>
-    Already have an account?
-    <a routerLink="/login">Login</a>
-  </p>
+  </div>
 </div>

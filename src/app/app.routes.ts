@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { AUTH_ROUTES } from './features/auth/auth.route';
+import { ChangePasswordComponent } from './features/change-password/change-password.component';
 
 export const routes: Routes = [
   ...AUTH_ROUTES,
@@ -16,8 +17,12 @@ export const routes: Routes = [
     loadComponent: () => import('./features/washrequest/washrequest.component').then(m => m.WashRequestComponent)
   },
   {
-    path: 'washpackages',
-    loadComponent: () => import('./pages/washpackages/washpackages.component').then(m=>m.WashPackagesComponent)
+    path: 'services',
+    loadComponent: () => import('./pages/services/services.component').then(m=>m.ServicesComponent)
+  },
+  {
+    path: 'change-password',
+    loadComponent: ()=> import('./features/change-password/change-password.component').then(m=>ChangePasswordComponent)
   }
 //   {
 //     path: '**',

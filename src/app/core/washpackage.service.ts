@@ -21,7 +21,13 @@ export class WashPackageService {
   getAllWashPackages(): Observable<WashPackage[]> {
     return this.http.get<WashPackage[]>(`${this.baseUrl}`);
   }
+  
+  createWashPackage(newPackage: Omit<WashPackage, 'washPackageID'>): Observable<WashPackage> {
+  const url = `${environment.apiUrl}/api/WashPackage`;
+  return this.http.post<WashPackage>(url, newPackage);
+  }
 
+  //Update Delete
 //   getWashPackageById(id: number): Observable<WashPackage> {
 //     return this.http.get<WashPackage>(`${this.baseUrl}/${id}`);
 //   }

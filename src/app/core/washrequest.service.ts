@@ -7,7 +7,7 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class WashRequestService {
-  private baseUrl = `${environment.apiUrl}/api/Washrequest`; // Adjust as needed
+  private baseUrl = `${environment.apiUrl}/api/WashRequest`; // Adjust as needed
 
   constructor(private http: HttpClient) {}
 
@@ -15,13 +15,12 @@ export class WashRequestService {
   submitRequest(requestData: any): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}`, requestData);
   }
-
-  // Optionally: Get packages and add-ons
-  getWashPackages(): Observable<any[]> {
-    return this.http.get<any[]>('http://localhost:5062/api/WashPackage');
+  
+  getWashRequest(): Observable<any> {
+    return this.http.get<any[]>(`${this.baseUrl}`);
   }
 
-  getAddOns(): Observable<any[]> {
-    return this.http.get<any[]>('http://localhost:5062/api/AddOn');
-  }
+  cancelWashRequest(requestId: string): Observable<any> {
+  return this.http.delete(`${this.baseUrl}/cancel/${requestId}`);
+}
 }

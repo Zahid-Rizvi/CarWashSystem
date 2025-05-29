@@ -1,219 +1,205 @@
 @import "bootstrap/scss/bootstrap";
 @import '../../../styles/variables';
 
-.wash-request-container {
-  max-width: 700px;
-  margin: 4rem auto;
-  padding: 2.5rem;
-  background-color: $dark-bg;
-  border-radius: 1rem;
-  border: 1px solid $border-color;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+.wash-request {
+  display: flex;
+  min-height: 100vh;
 
-  h2.title {
-    text-align: center;
-    margin-bottom: 2rem;
-    font-weight: 700;
-    font-size: 2rem;
-    @include gradient-text;
+  // Left Side - Slogan (40%)
+  .wash-request-left {
+    flex: 0 0 40%;
+    @include gradient-bg;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    position: relative;
+
+.slogan-content {
+  max-width: 400px;
+  color: white;
+  z-index: 1;
+  position: relative;
+
+  .guiding-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    font-family: $font-family-heading;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   }
 
-  form {
+  .guiding-steps {
+    list-style: none;
+    padding: 0;
+    margin-top: 2rem;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
 
-    label {
-      color: $light-text;
+    li {
+      font-size: 1.1rem;
       font-weight: 500;
-      margin-bottom: 0.5rem;
-      display: block;
-    }
-
-    input[type='text'],
-    input[type='number'],
-    select {
-      background-color: rgba(255, 255, 255, 0.05);
-      border: 1px solid $border-color;
-      border-radius: 0.5rem;
-      color: $light-text;
-      padding: 0.75rem 1rem;
-      width: 100%;
-      transition: all 0.3s ease;
-
-      &:focus {
-        border-color: $gradient-start;
-        box-shadow: 0 0 0 2px rgba($gradient-start, 0.2);
-        background-color: rgba(255, 255, 255, 0.1);
-        outline: none;
-      }
-
-      &::placeholder {
-        color: rgba($light-text, 0.5);
-      }
-    }
-
-    small {
-      font-size: 0.875rem;
-      color: #ff4d4d;
-      margin-top: 0.5rem;
-      display: block;
-    }
-
-    button[type='submit'] {
-      background: $cta-green;
-      color: #000;
-      padding: 0.75rem 1.5rem;
-      font-weight: 600;
-      border-radius: 2rem;
-      border: none;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      width: 100%;
-      margin-top: 1rem;
-
-      &:hover:not([disabled]) {
-        background: lighten($cta-green, 10%);
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba($cta-green, 0.3);
-      }
-
-      &:disabled {
-        background: rgba($cta-green, 0.5);
-        cursor: not-allowed;
-      }
-    }
-
-    /* Container for buttons (Left and Right alignment) */
-    .button-container {
       display: flex;
-      justify-content: space-between;
-      gap: 1rem;
-      margin-top: 1rem;
+      align-items: flex-start;
+      gap: 0.75rem;
     }
-
-    /* Skip Button Styling */
-    button[type='button'] {
-      background-color: transparent;
-      color: $light-text;
-      border: 1px solid $border-color;
-      font-weight: 500;
-      padding: 0.75rem 1.5rem;
-      border-radius: 2rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      flex: 1;
-
-      &:hover {
-        border-color: $gradient-start;
-        color: $gradient-start;
-      }
-    }
-
-    /* Specific styles for the Add Car button */
-    .button-container button[type='submit'] {
-      flex: 2;
-    }
-
-    /* Checkbox styling for add-ons */
-    .addon-option {
-      margin-bottom: 0.5rem;
-      
-      label {
-        display: flex;
-        align-items: flex-start;
-        cursor: pointer;
-        
-        input[type='checkbox'] {
-          appearance: none;
-          width: 1.2rem;
-          height: 1.2rem;
-          border: 1px solid $border-color;
-          border-radius: 0.25rem;
-          margin-right: 0.75rem;
-          margin-top: 0.2rem;
-          transition: all 0.2s ease;
-          flex-shrink: 0;
-
-          &:checked {
-            background-color: $cta-green;
-            border-color: $cta-green;
-          }
-
-          &:checked::after {
-            content: "✓";
-            color: $dark-bg;
-            position: absolute;
-            font-size: 0.8rem;
-            margin-top: -0.25rem;
-            margin-left: 0.25rem;
-          }
-        }
-      }
-    }
-  }
-
-  .car-form {
-    border: 1px solid rgba($gradient-start, 0.3);
-    padding: 2rem;
-    margin-bottom: 2.5rem;
-    border-radius: 0.75rem;
-    background-color: rgba($gradient-start, 0.05);
-
-    h4 {
-      margin-bottom: 1.5rem;
-      color: $light-text;
-      font-weight: 600;
-      text-align: center;
-      position: relative;
-      
-      &::after {
-        content: "";
-        position: absolute;
-        bottom: -0.75rem;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 50px;
-        height: 3px;
-        background: linear-gradient(to right, $gradient-start, $gradient-end);
-      }
-    }
-  }
-
-  .success-msg,
-  .error-msg {
-    margin-top: 1.5rem;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    text-align: center;
-    font-weight: 500;
-  }
-
-  .success-msg {
-    background-color: rgba($cta-green, 0.15);
-    color: $cta-green;
-    border: 1px solid rgba($cta-green, 0.3);
-  }
-
-  .error-msg {
-    background-color: rgba(#ff4d4d, 0.15);
-    color: #ff4d4d;
-    border: 1px solid rgba(#ff4d4d, 0.3);
   }
 }
 
-// Location button special styling
-button[type="button"][onclick*="autoFillLocation"] {
-  background-color: rgba($gradient-start, 0.1) !important;
-  color: $gradient-start !important;
-  border: 1px solid rgba($gradient-start, 0.3) !important;
-  padding: 0.5rem 1rem !important;
-  margin-top: 0.5rem !important;
-  width: 100%;
-  border-radius: 0.5rem !important;
-  
-  &:hover {
-    background-color: rgba($gradient-start, 0.2) !important;
-    transform: translateY(-1px);
+}
+
+  // Right Side - Form (60%)
+  .wash-request-right {
+    flex: 0 0 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background-color: $light-bg;
+
+    .progress-bar {
+      background-color: $cta-green;
+      transition: width 0.4s ease;
+    }
+
+    .wash-request-form {
+      background-color: $card-bg;
+      width: 70%;
+      padding: 2rem;
+      border-radius: 1rem;
+      border: 1px solid $border-color;
+      box-shadow: 0 4px 12px $shadow-color;
+
+      h2 {
+        text-align: center;
+        margin-bottom: 2rem;
+        font-family: $font-family-heading;
+        font-weight: 800;
+        @include gradient-text;
+      }
+
+      .form-label {
+        font-weight: 500;
+        color: $text-primary;
+      }
+
+      .form-select,
+      .form-control {
+        border-radius: 0.5rem;
+        border: 1px solid $border-color;
+        transition: border-color 0.2s ease-in-out;
+
+        &:focus {
+          border-color: $gradient-start;
+          box-shadow: 0 0 0 0.2rem rgba($gradient-start, 0.25);
+        }
+      }
+
+      .form-check {
+        margin-bottom: 0.5rem;
+
+        .form-check-label {
+          font-size: 0.95rem;
+          color: $text-primary;
+        }
+
+        .form-check-input {
+          cursor: pointer;
+        }
+      }
+
+      .card-body {
+        background-color: $hover-bg;
+        border: 1px solid $border-color;
+        border-radius: 0.75rem;
+        padding: 1rem;
+      }
+
+      .btn {
+        border-radius: 0.5rem;
+        padding: 0.5rem 1rem;
+        font-weight: 500;
+
+        &.btn-success {
+          color: #000;
+          background-color: $cta-green;
+          border-color: $cta-green;
+
+          &:hover {
+            background-color: darken($cta-green, 5%);
+          }
+        }
+
+        &.btn-main {
+          border-color: $cta-green;
+
+          &:hover {
+            color: #000;
+            background-color: darken($cta-green, 5%);
+          }
+        }
+
+        &.btn-outline-primary {
+          color: $gradient-start;
+          border-color: $gradient-start;
+
+          &:hover {
+            background-color: rgba($gradient-start, 0.1);
+          }
+        }
+
+        &.btn-outline-secondary {
+          color: $text-secondary;
+          border-color: $text-secondary;
+
+          &:hover {
+            background-color: $hover-bg;
+          }
+        }
+      }
+
+      .progress {
+        height: 10px;
+        border-radius: 5px;
+        background-color: lighten($hover-bg, 5%);
+
+        .progress-bar {
+          background-color: $cta-green;
+        }
+      }
+
+      .step-navigation {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 2rem;
+      }
+
+      .summary {
+        background-color: $hover-bg;
+        padding: 1rem;
+        border-radius: 0.5rem;
+
+        p {
+          margin: 0.5rem 0;
+          font-size: 0.95rem;
+          color: $text-primary;
+        }
+      }
+
+      @media (max-width: 576px) {
+        padding: 1rem;
+
+        h2 {
+          font-size: 1.5rem;
+        }
+
+        .btn {
+          font-size: 0.9rem;
+          padding: 0.4rem 0.8rem;
+        }
+      }
+    }
   }
 }

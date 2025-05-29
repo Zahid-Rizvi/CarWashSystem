@@ -1,74 +1,339 @@
-<div class="dashboard-container d-flex">
+<div class="dashboard-wrapper d-flex">
   <!-- Sidebar -->
-  <div class="sidebar p-3">
-    <div class="user-info text-white mb-4">
-      <img [src]="profileImage" class="profile-img mb-2" alt="User" />
-      <h5>{{ user?.name }}</h5>
-      <p>{{ user?.email }}</p>
-    </div>
-
+  <div class="sidebar bg-light p-3">
+    <h4 class="text-center gradient-text">Dashboard</h4>
     <ul class="nav flex-column">
       <li class="nav-item">
         <a class="nav-link" [class.active]="activeTab === 'profile'" (click)="activeTab = 'profile'">
           <i class="bi bi-person me-2"></i>Profile
         </a>
       </li>
-      <!-- Add more options here later -->
-      <li class="nav-item">
-        <a class="nav-link text-danger" (click)="logout()">
-          <i class="bi bi-box-arrow-right me-2"></i>Logout
+      <li class="nav-item" *ngIf="isAdmin">
+         <a class="nav-link" [class.active]="activeTab === 'pendingWashRequests'" (click)="activeTab = 'pendingWashRequests'">
+        <i class="bi bi-hourglass-split me-2"></i>Pending Washers
+      </a>
+    </li>
+
+      <li class="nav-item" *ngIf="isWasher">
+        <a class="nav-link" [class.active]="activeTab === 'washrequest'" (click)="activeTab = 'washrequest'">
+        <i class="bi bi-bell me-2"></i>Wash Requests
+      </a>
+    </li>
+    <li class="nav-item" *ngIf="isWasher">
+        <a class="nav-link" [class.active]="activeTab === 'assigned'" (click)="activeTab = 'assigned'">
+        <i class="bi-clipboard-check"></i>Assigned Requests
+      </a>
+    </li>
+    <li class="nav-item" *ngIf="isCustomer">
+      <a class="nav-link" [class.active]="activeTab === 'trackrequest'" (click)="activeTab = 'trackrequest'">
+      <i class="bi bi-map me-2"></i>Track Request
+    </a>
+  </li>
+
+
+      <li class="nav-item" *ngIf="isAdmin">
+        <a class="nav-link" [class.active]="activeTab === 'washpackages'" (click)="activeTab = 'washpackages'">
+        <i class="bi bi-box2-heart me-2"></i>Add Wash Packages
         </a>
+      </li>
+      <li class="nav-item" *ngIf="isAdmin">
+        <a class="nav-link" [class.active]="activeTab === 'addons'" (click)="activeTab = 'addons'">
+        <i class="bi bi-plus-circle me-2"></i>Add AddOns
+        </a>
+      </li>
+
+      <li class="nav-item" *ngIf="isAdmin">
+        <a class="nav-link" [class.active]="activeTab === 'users'" (click)="activeTab = 'users'">
+        <i class="bi bi-people me-2"></i>Users
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [class.active]="activeTab === 'changepassword'" (click)="activeTab = 'changepassword'">
+          <i class="bi bi-key me-2"></i>Change Password
+        </a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link text-danger" (click)="logout()">
+            <i class="bi bi-box-arrow-right me-2"></i>Logout
+          </a>
       </li>
     </ul>
   </div>
 
   <!-- Main Content -->
-  <div class="content p-4 flex-grow-1 text-white">
-    <div class="top-bar d-flex justify-content-end align-items-center">
-      <!-- Updated notification dropdown section -->
-      <div class="notification-wrapper position-relative me-3" (click)="toggleDropdown()">
-        <i class="bi bi-bell fs-5"></i>
-        <span *ngIf="unreadCount > 0" class="badge position-absolute top-0 start-100 translate-middle p-1 rounded-circle">
-          {{ unreadCount }}
-        </span>
-
-        <div *ngIf="showDropdown" class="dropdown-menu show shadow">
-          <div *ngIf="notifications.length === 0" class="dropdown-item text-center">
-            <p class="mb-0">No notifications</p>
-          </div>
-          
-          <div *ngFor="let notif of notifications" class="dropdown-item">
-            <div class="d-flex justify-content-between">
-              <div class="w-100">
-                <p class="mb-1">{{ notif.message }}</p>
-                <small class="text-muted">{{ notif.timestamp | date:'short' }}</small>
-              </div>
-            </div>
-        
-            <!-- Show Accept/Reject only for actionable washer notifications -->
-            <div *ngIf="(notif.notificationType === 'WashRequestNearby' || notif.notificationType === 'WashRequestReassigned') && !notif.readStatus" class="mt-2 d-flex justify-content-end">
-              <button class="btn btn-sm btn-success me-2" (click)="acceptRequest(notif)">Accept</button>
-              <button class="btn btn-sm btn-danger" (click)="rejectRequest(notif)">Reject</button>
-            </div>
-
-            <!-- Otherwise, show mark as read -->
-            <div *ngIf="notif.notificationType === 'WasherAccepted' && !notif.readStatus" class="mt-2 d-flex justify-content-end">
-              <button class="btn btn-sm btn-link text-decoration-none" (click)="markAsRead(notif, $event)">Mark as read</button>
-            </div>              
-          </div>
+  <div class="main-content flex-grow-1 p-4" [ngSwitch]="activeTab">
+    <!-- Profile Tab -->
+    <div *ngSwitchCase="'profile'">
+      <h3 class="gradient-text cthead">Edit Profile</h3>
+      <form (ngSubmit)="updateProfile()" #profileForm="ngForm" class="mt-4">
+        <div class="mb-3">
+          <label for="name" class="form-label">Name:</label>
+          <input id="name" name="name" [(ngModel)]="user.name" class="form-control" required />
         </div>
-      </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email:</label>
+          <input id="email" name="email" [(ngModel)]="user.email" class="form-control" required />
+        </div>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+      </form>
     </div>
-    
-    <ng-container [ngSwitch]="activeTab">
-      <div *ngSwitchCase="'profile'">
-        <h3>User Details</h3>
-        <div class="user-details mt-4">
-          <p><strong>Name:</strong> {{ user?.name }}</p>
-          <p><strong>Email:</strong> {{ user?.email }}</p>
-          <!-- Add more details if needed -->
+
+    <!-- Available Wash Requests Tab -->
+<div *ngSwitchCase="'washrequest'">
+  <h3 class="gradient-text cthead">Available Wash Requests</h3>
+  <div *ngIf="washerWashRequest.length === 0">
+    <p>No available wash requests right now.</p>
+  </div>
+
+<div *ngFor="let washRequest of washerWashRequest" class="mb-3 p-3 border rounded bg-light text-dark">
+  <p><strong>Customer:</strong> {{ washRequest.userName }}</p>
+  <p><strong>Car:</strong> {{ washRequest.carBrand }} {{ washRequest.carModel }} ({{ washRequest.licensePlate }})</p>
+  <p><strong>Color:</strong> {{ washRequest.carColor }}</p>
+  <p><strong>WashPackage Name:</strong>{{ washRequest.washPackageName }}</p>
+  <p><strong>WashPackage Price:</strong>{{ washRequest.washPackagePrice }}</p>
+  <p><strong>AddOn Name:</strong>{{ washRequest.addOnName }}</p>
+  <p><strong>AddOn Price:</strong>{{ washRequest.addOnPrice }}</p>
+  <p><strong>Scheduled At:</strong> {{ washRequest.scheduledDateTime | date:'short' }}</p>
+  <p><strong>Distance:</strong> {{ washRequest.distanceInMeters }} meters</p>
+
+    <div class="d-flex justify-content-end mt-2">
+      <button class="btn btn-outline-success me-2" (click)="acceptWashRequest(washRequest)">Accept</button>
+      <button class="btn btn-outline-danger" (click)="rejectWashRequest(washRequest)">Reject</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- Track Request Tab -->
+<div *ngSwitchCase="'trackrequest'">
+  <h3 class="gradient-text cthead">Track Your Wash Request</h3>
+  <div *ngIf="currentWashRequest.length === 0">
+    <p>You have no active wash requests.</p>
+  </div>
+<div *ngFor="let washRequest of currentWashRequest" class="p-3 border rounded bg-light text-dark">
+  <p><strong>Status:</strong> {{ washRequest.requestStatus }}</p>
+  <p><strong>Assigned Washer:</strong> {{ washRequest.washerName || 'Not Assigned Yet' }}</p>
+  <p><strong>Car:</strong> {{ washRequest.carBrand }} ({{ washRequest.carModel }})</p>
+  <p><strong>License Plate:</strong> {{ washRequest.licensePlate }}</p>
+  <p><strong>Package:</strong> {{ washRequest.washPackageName }}</p>
+  <p *ngIf="washRequest.addOnName"><strong>Add-On:</strong> {{ washRequest.addOnName }}</p>
+  <p><strong>Scheduled Time:</strong> {{ washRequest.scheduledDateTime | date:'short' }}</p>
+    <button
+    class="btn btn-danger mt-2"
+    [disabled]="washRequest.requestStatus !== 'Pending'"
+    (click)="confirmCancel(washRequest)"
+  >
+    Cancel Request
+  </button>
+</div>
+
+</div>
+
+
+<!----Assigned Request Tab---->
+<div *ngSwitchCase="'assigned'">
+  <h3 class="gradient-text cthead">Assigned Wash Requests</h3>
+  <div *ngIf="assignedWashRequest.length === 0">
+    <p>You have no assigned requests.</p>
+  </div>
+  <div *ngFor="let request of assignedWashRequest" class="p-3 border rounded bg-light text-dark mb-3">
+    <p><strong>Customer:</strong> {{ request.userName }}</p>
+    <p><strong>Car:</strong> {{ request.carBrand }} ({{ request.carModel }})</p>
+    <p><strong>Package:</strong> {{ request.washPackageName }} - ₹{{ request.washPackagePrice }}</p>
+    <p><strong>Addon:</strong> {{ request.addOnName }} - ₹{{ request.addOnPrice }}</p>
+    <p><strong>Scheduled Time:</strong> {{ request.scheduledDateTime | date:'short' }}</p>
+  </div>
+</div>
+
+
+
+
+    <!-- Change Password Tab -->
+    <div *ngSwitchCase="'changepassword'">
+      <h3 class="gradient-text cthead">Change Password</h3>
+      <form (ngSubmit)="changePassword()" #passwordForm="ngForm" class="mt-4">
+        <div class="mb-3">
+          <label for="current" class="form-label">Current Password:</label>
+          <input type="password" id="current" name="currentPassword" [(ngModel)]="passwordData.currentPassword" class="form-control" required />
         </div>
+        <div class="mb-3">
+          <label for="new" class="form-label">New Password:</label>
+          <input type="password" id="new" name="newPassword" [(ngModel)]="passwordData.newPassword" class="form-control" required />
+        </div>
+        <button type="submit" class="btn btn-warning">Update Password</button>
+      </form>
+    </div>
+
+    <!-- ---- Admin Pending Washer Request ---- -->
+     <!-- Pending Wash Requests Tab -->
+<!-- Pending Washer Signup Requests Tab -->
+<div *ngSwitchCase="'pendingWashRequests'">
+  <h3 class="gradient-text cthead">Pending Washer Signup Requests</h3>
+  <div *ngIf="pendingWashRequests.length === 0">
+    <p>No pending washer requests.</p>
+  </div>
+  <div *ngFor="let request of pendingWashRequests" class="mb-3 p-3 border rounded bg-light text-dark">
+    <p><strong>Name:</strong> {{ request.name }}</p>
+    <p><strong>Email:</strong> {{ request.email }}</p>
+    <p><strong>Contact Info:</strong> {{ request.contactInfo }}</p>
+    <p><strong>Location:</strong> Latitude {{ request.latitude }}, Longitude {{ request.longitude }}</p>
+    
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-success me-2" (click)="approveRequest(request)">Approve</button>
+      <button class="btn btn-danger" (click)="rejectRequest(request)">Reject</button>
+    </div>
+  </div>
+</div>
+
+<!-- Wash Packages Tab -->
+<div *ngSwitchCase="'washpackages'">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="gradient-text cthead">Wash Packages</h3>
+    <button class="btn btn-outline-primary" (click)="showAddPackage = !showAddPackage">
+      <i class="bi bi-plus-lg me-1"></i>Add Package
+    </button>
+  </div>
+
+  <!-- Add New Package Form -->
+  <div *ngIf="showAddPackage" class="mb-4 border p-3 rounded bg-light">
+    <form (ngSubmit)="addWashPackage()" #packageForm="ngForm">
+      <div class="mb-3">
+        <label for="name" class="form-label">Package Name:</label>
+        <input id="name" name="name" [(ngModel)]="newPackage.packageName" class="form-control" required />
       </div>
-    </ng-container>
+      <div class="mb-3">
+        <label for="desc" class="form-label">Description:</label>
+        <textarea id="desc" name="description" [(ngModel)]="newPackage.description" class="form-control" required></textarea>
+      </div>
+      <div class="mb-3">
+        <label for="price" class="form-label">Price:</label>
+        <input type="number" id="price" name="price" [(ngModel)]="newPackage.price" class="form-control" required />
+      </div>
+      <button type="submit" class="btn btn-success">Add Package</button>
+    </form>
+  </div>
+
+  <!-- Existing Packages List -->
+  <div *ngIf="washPackages.length === 0">
+    <p>No wash packages available.</p>
+  </div>
+  <div *ngFor="let pkg of washPackages" class="mb-3 p-3 washpackageSt rounded bg-light text-light">
+    <h5>{{ pkg.name }}</h5>
+    <p>{{ pkg.description }}</p>
+    <p><strong>Price:</strong> ₹{{ pkg.price }}</p>
+  </div>
+</div>
+
+<!-- AddOns Tab -->
+<div *ngSwitchCase="'addons'">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="gradient-text cthead">Manage AddOns</h3>
+    <button class="btn btn-outline-primary" (click)="showAddAddOn = !showAddAddOn">
+      <i class="bi bi-plus-lg me-1"></i>Add AddOn
+    </button>
+  </div>
+
+
+
+  <!-- Add New AddOn Form -->
+  <div *ngIf="showAddAddOn" class="mb-4 border p-3 rounded bg-light">
+    <form (ngSubmit)="addAddOn()" #addOnForm="ngForm">
+      <div class="mb-3">
+        <label class="form-label">AddOn Name:</label>
+        <input name="addOnName" [(ngModel)]="newAddOn.name" class="form-control" required />
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Description:</label>
+        <textarea name="description" [(ngModel)]="newAddOn.description" class="form-control" required></textarea>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Price:</label>
+        <input type="number" name="price" [(ngModel)]="newAddOn.price" class="form-control" required />
+      </div>
+      <button type="submit" class="btn btn-success">Add AddOn</button>
+    </form>
+  </div>
+
+  <!-- Existing AddOns List -->
+  <div *ngIf="addOns.length === 0">
+    <p>No add-ons available.</p>
+  </div>
+  <div *ngFor="let addOn of addOns" class="mb-3 p-3 border rounded bg-light text-dark">
+    <h5>{{ addOn.name }}</h5>
+    <p>{{ addOn.description }}</p>
+    <p><strong>Price:</strong> ₹{{ addOn.price }}</p>
+  </div>
+</div>
+
+<div *ngSwitchCase="'users'">
+  <h3 class="gradient-text cthead">All Users</h3>
+  <button class="btn btn-outline-primary" (click)="addUserVisible = !addUserVisible">
+    <i class="bi bi-person-plus me-1"></i>Add User
+  </button>
+
+  <div *ngIf="!groupedUsers">
+    <p>Loading users...</p>
+  </div>
+
+  <!-- Add User Form -->
+<div *ngIf="addUserVisible" class="mb-4 border p-3 rounded bg-light">
+  <form (ngSubmit)="addNewUser()" #userForm="ngForm">
+    <div class="mb-3">
+      <label class="form-label">Name:</label>
+      <input name="name" [(ngModel)]="newUser.name" class="form-control" required />
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Email:</label>
+      <input type="email" name="email" [(ngModel)]="newUser.email" class="form-control" required />
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Password:</label>
+      <input type="password" name="password" [(ngModel)]="newUser.password" class="form-control" required />
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Contact Info:</label>
+      <input name="contactInfo" [(ngModel)]="newUser.contactInfo" class="form-control" />
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Profile Picture (URL):</label>
+      <input name="profilePicture" [(ngModel)]="newUser.profilePicture" class="form-control" />
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Role:</label>
+      <select name="role" [(ngModel)]="newUser.role" class="form-select">
+        <option value="Customer">Customer</option>
+        <option value="Washer">Washer</option>
+        <option value="Admin">Admin</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Create User</button>
+  </form>
+</div>
+
+  <div *ngFor="let role of groupedRoles">
+    <h5 class="mt-4">{{ role }}</h5>
+    <table class="table table-bordered table-sm">
+      <thead class="table-light">
+        <tr>
+          <th>SR NO.</th>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of groupedUsers[role]; let i=index">
+          <td>{{ i+1 }}</td>
+          <td>{{ user.id }}</td>
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+
   </div>
 </div>

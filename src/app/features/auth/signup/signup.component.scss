@@ -1,120 +1,266 @@
 @import "bootstrap/scss/bootstrap";
 @import '../../../../styles/variables';
 
-.signup-container {
-  max-width: 480px;
-  margin: 3rem auto;
-  padding: 2.5rem;
-  background-color: $dark-bg;
-  border-radius: 1rem;
-  border: 1px solid $border-color;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-
-  h2 {
-    text-align: center;
-    margin-bottom: 2rem;
-    font-weight: 700;
-    @include gradient-text;
+.signup-page {
+  display: flex;
+  min-height: 100vh;
+  
+  // Left Side - Slogan (40%)
+  .signup-left {
+    flex: 0 0 40%;
+    @include gradient-bg;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    position: relative;
+    
+    .slogan-content {
+      max-width: 400px;
+      text-align: center;
+      color: white;
+      z-index: 1;
+      position: relative;
+      
+      // .slogan-icon {
+      //   margin-bottom: 2rem;
+      //   i {
+      //     font-size: 5rem;
+      //     color: rgba(255, 255, 255, 0.9);
+      //     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+      //   }
+      // }
+      
+      .slogan-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        font-family: $font-family-heading;
+        margin-bottom: 1.5rem;
+        line-height: 1.2;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+      
+      .slogan-subtitle {
+        font-size: 1.1rem;
+        margin-bottom: 2.5rem;
+        opacity: 0.9;
+        line-height: 1.6;
+      }
+      
+      .slogan-features {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        
+        .feature-item {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 1rem;
+          font-weight: 500;
+          text-decoration: underline;
+          text-underline-offset: 4px;
+          text-decoration-thickness: 2px;
+        }
+      }
+    }
   }
-
-  form {
-    .form-group {
-      margin-bottom: 1.5rem;
-    }
-
-    label {
-      color: $light-text;
-      font-weight: 500;
-      margin-bottom: 0.5rem;
-      display: block;
-    }
-
-    .form-control {
-      background-color: rgba(255, 255, 255, 0.05);
+  
+  // Right Side - Form (60%)
+  .signup-right {
+    flex: 0 0 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background-color: $light-bg;
+    overflow-y: auto;
+    
+    .signup-container {
+      max-width: 480px;
+      width: 100%;
+      padding: 2.5rem;
+      background-color: $card-bg;
+      border-radius: 1rem;
       border: 1px solid $border-color;
-      border-radius: 0.5rem;
-      color: $light-text;
-      padding: 0.75rem 1rem;
-      transition: all 0.3s ease;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      margin: 2rem 0;
 
-      &:focus {
-        border-color: $gradient-start;
-        box-shadow: 0 0 0 2px rgba($gradient-start, 0.2);
-        background-color: rgba(255, 255, 255, 0.1);
+      .cthead {
+        border-bottom: 2px solid $gradient-start;
+        padding-bottom: 0.5rem;
+        text-align: center;
+        margin-bottom: 0.5rem;
+        font-family: $font-family-heading;
+        font-weight: 800;
+        @include gradient-text;
+      }
+      
+      .signup-subtitle {
+        text-align: center;
+        color: $text-secondary;
+        margin-bottom: 2rem;
+        font-size: 0.95rem;
       }
 
-      &::placeholder {
-        color: rgba($light-text, 0.5);
-      }
-
-      &.ng-invalid.ng-touched {
-        border-color: #ff4d4d;
-      }
-    }
-
-    .error {
-      font-size: 0.875rem;
-      color: #ff4d4d;
-      margin-top: 0.5rem;
-    }
-
-    button {
-      margin-top: 1.5rem;
-      padding: 0.75rem 1.5rem;
-      font-weight: 600;
-      border-radius: 2rem;
-      border: none;
-      transition: all 0.3s ease;
-
-      &.btn-primary {
-        background: $cta-green;
-        color: #000;
-
-        &:hover:not([disabled]) {
-          background: lighten($cta-green, 10%);
-          transform: translateY(-2px);
-          box-shadow: 0 4px 12px rgba($cta-green, 0.3);
+      form {
+        .form-group {
+          margin-bottom: 1.5rem;
         }
 
-        &:disabled {
-          background: rgba($cta-green, 0.5);
-          cursor: not-allowed;
+        label {
+          color: $text-primary;
+          font-weight: 500;
+          margin-bottom: 0.5rem;
+          display: block;
+        }
+
+        .form-control {
+          background-color: #fff;
+          border: 1px solid $border-color;
+          border-radius: 0.5rem;
+          color: $text-primary;
+          padding: 0.75rem 1rem;
+          transition: all 0.3s ease;
+
+          &:focus {
+            border-color: $gradient-start;
+            box-shadow: 0 0 0 2px rgba($gradient-start, 0.2);
+            background-color: #fff;
+          }
+
+          &::placeholder {
+            color: $text-secondary;
+          }
+
+          &.ng-invalid.ng-touched {
+            border-color: #ff4d4d;
+          }
+        }
+
+        .error {
+          font-size: 0.875rem;
+          color: #ff4d4d;
+          margin-top: 0.5rem;
+        }
+
+        button {
+          margin-top: 1.5rem;
+          padding: 0.75rem 1.5rem;
+          font-weight: 600;
+          border-radius: 2rem;
+          border: none;
+          transition: all 0.3s ease;
+
+          &.btn-primary {
+            background: $cta-green;
+            color: #000;
+
+            &:hover:not([disabled]) {
+              background: lighten($cta-green, 10%);
+              transform: translateY(-2px);
+              box-shadow: 0 4px 12px rgba($cta-green, 0.3);
+            }
+
+            &:disabled {
+              background: rgba($cta-green, 0.5);
+              cursor: not-allowed;
+            }
+          }
+
+          &.btn-secondary {
+            background: #e0e0e0;
+            color: $text-primary;
+            margin-bottom: 1rem;
+
+            &:hover:not([disabled]) {
+              background: darken(#e0e0e0, 5%);
+            }
+          }
         }
       }
 
-      &.btn-secondary {
-        background: #333;
-        color: $light-text;
-        margin-bottom: 1rem;
+      p {
+        text-align: center;
+        margin-top: 1.5rem;
+        color: $text-secondary;
 
-        &:hover:not([disabled]) {
-          background: #444;
+        a {
+          color: $gradient-start;
+          text-decoration: none;
+          margin-left: 0.5rem;
+          font-weight: 500;
+
+          &:hover {
+            text-decoration: underline;
+          }
         }
+      }
+
+      .loading-message {
+        font-size: 0.875rem;
+        color: $text-secondary;
+        margin-top: 0.5rem;
+        text-align: center;
       }
     }
   }
+}
 
-  p {
-    text-align: center;
-    margin-top: 1.5rem;
-    color: $muted-text;
-
-    a {
-      color: $gradient-start;
-      text-decoration: none;
-      margin-left: 0.5rem;
-      font-weight: 500;
-
-      &:hover {
-        text-decoration: underline;
+// Responsive Design
+@media (max-width: 992px) {
+  .signup-page {
+    flex-direction: column;
+    
+    .signup-left {
+      flex: none;
+      min-height: 35vh;
+      
+      .slogan-content {
+        .slogan-title {
+          font-size: 2rem;
+        }
+      }
+    }
+    
+    .signup-right {
+      flex: none;
+      min-height: 65vh;
+      
+      .signup-container {
+        margin: 1rem 0;
+        padding: 2rem;
       }
     }
   }
+}
 
-  .loading-message {
-    font-size: 0.875rem;
-    color: $muted-text;
-    margin-top: 0.5rem;
-    text-align: center;
+@media (max-width: 768px) {
+  .signup-page {
+    .signup-left {
+      padding: 1.5rem;
+      min-height: 30vh;
+      
+      .slogan-content {
+        .slogan-title {
+          font-size: 1.75rem;
+        }
+        
+        .slogan-features {
+          .feature-item {
+            font-size: 0.9rem;
+          }
+        }
+      }
+    }
+    
+    .signup-right {
+      padding: 1rem;
+      
+      .signup-container {
+        padding: 1.5rem;
+        margin: 0.5rem 0;
+      }
+    }
   }
 }

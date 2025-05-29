@@ -16,95 +16,59 @@ import { WashPackageService } from '../../core/washpackage.service';
   templateUrl: './washrequest.component.html',
   styleUrl: './washrequest.component.scss'
 })
+
 export class WashRequestComponent implements OnInit {
-  washRequestForm: FormGroup;
-  carForm: FormGroup;
+  currentStep = 1;
 
-  userCars: any[] = [];
+  carForm!: FormGroup;
+  washRequestForm!: FormGroup;
+
+  carAdded = false;
+  cars: any[] = [];
   washPackages: any[] = [];
-  addOns: any[] = [];
+  addons: any[] = [];
 
-  successMessage: string | null = null;
-  errorMessage: string | null = null;
-
-  carAdded = false;  // Flag to track if the car was added or skipped
+  successMessage = '';
+  errorMessage = '';
 
   constructor(
     private fb: FormBuilder,
     private carService: CarService,
     private washRequestService: WashRequestService,
-    private addOnService: AddOnService,
-    private washPackageService: WashPackageService
+    private washPackageService: WashPackageService,
+    private addOnService: AddOnService
   ) {
     this.carForm = this.fb.group({
       brand: ['', Validators.required],
       model: ['', Validators.required],
-      year: ['', [Validators.required, Validators.min(1900)]],
+      year: ['', [Validators.required, Validators.min(1900), Validators.max(new Date().getFullYear())]],
       color: ['', Validators.required],
       licensePlate: ['', Validators.required]
     });
 
     this.washRequestForm = this.fb.group({
       carId: ['', Validators.required],
+      latitude: ['', Validators.required],
+      longitude: ['', Validators.required],
       washPackageId: ['', Validators.required],
-      addOnIds: [[]],
-      location: ['', Validators.required]
+      scheduledDateTime: ['', Validators.required],
+      notes: ['']
     });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
+
     this.loadUserCars();
     this.loadWashPackages();
     this.loadAddOns();
   }
 
-  loadUserCars() {
-    this.carService.getUserCars().subscribe({
-      next: (res: any[]) => {
-        this.userCars = res;
-        if (this.userCars.length > 0) {
-          this.washRequestForm.patchValue({ carId: this.userCars[0].carID });
-        }
-      },
-      error: () => {
-        this.errorMessage = 'Failed to load cars.';
-      }
-    });
+  goToStep(step: number) {
+    this.currentStep = step;
   }
 
-  loadWashPackages() {
-    this.washPackageService.getAllWashPackages().subscribe({
-      next: (res: any[]) => this.washPackages = res,
-      error: () => this.errorMessage = 'Failed to load wash packages.'
-    });
-  }
 
-  loadAddOns() {
-    this.addOnService.getAllAddOns().subscribe({
-      next: (res: any[]) => this.addOns = res,
-      error: () => this.errorMessage = 'Failed to load add-ons.'
-    });
-  }
-
-  onCarSubmit() {
-    if (this.carForm.valid) {
-      this.carService.addCar(this.carForm.value).subscribe({
-        next: () => {
-          this.successMessage = 'Car added successfully!';
-          this.carForm.reset();
-          this.loadUserCars();
-          this.carAdded = true; // Mark car as added
-        },
-        error: () => this.errorMessage = 'Failed to add car.'
-      });
-    }
-  }
-
-  skipCarForm() {
-    this.carAdded = true; // Mark car as skipped
-  }
-
-  onAddOnChange(event: any) {
+    onAddOnChange(event: any) {
     const selectedAddOns = this.washRequestForm.get('addOnIds')?.value || [];
     if (event.target.checked) {
       selectedAddOns.push(event.target.value);
@@ -116,47 +80,83 @@ export class WashRequestComponent implements OnInit {
     }
     this.washRequestForm.patchValue({ addOnIds: selectedAddOns });
   }
+  
+  loadWashPackages() {
+    this.washPackageService.getAllWashPackages().subscribe({
+      next: (data) => (this.washPackages = data),
+      error: (err) => console.error('Error loading packages', err)
+    });
+  }
+
+  loadAddOns() {
+    this.addOnService.getAllAddOns().subscribe({
+      next: (data) => (this.addons = data),
+      error: (err) => console.error('Error loading addons', err)
+    });
+  }
+  loadUserCars() {
+    this.carService.getUserCars().subscribe((cars) => {
+      this.cars = cars;
+      if (this.cars.length > 0) {
+        this.carAdded = true;
+        this.goToStep(2);
+      }
+    });
+  }
+  
 
   autoFillLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        pos => {
-          const locationStr = `${pos.coords.latitude},${pos.coords.longitude}`;
-          this.washRequestForm.patchValue({ location: locationStr });
-          this.errorMessage = null;
+        (position) => {
+          this.washRequestForm.patchValue({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+          });
         },
-        () => {
-          this.errorMessage = 'Failed to get location. Please allow location access.';
+        (error) => {
+          console.error('Geolocation error:', error);
         }
       );
-    } else {
-      this.errorMessage = 'Geolocation is not supported by your browser.';
     }
+  }
+
+  onCarSubmit() {
+    console.log("sss");
+    if(this.carForm.valid)
+    {
+      console.log('Form Value:', this.carForm.value);
+    }
+    if (this.carForm.valid) {
+      this.carService.addCar(this.carForm.value).subscribe({
+        next: () => {
+          this.successMessage = 'Car added successfully!';
+          this.carForm.reset();
+          this.loadUserCars();
+          this.carAdded = true;
+          this.goToStep(2);
+        },
+        error: () => this.errorMessage = 'Failed to add car.'
+      });
+    }
+  }
+
+  skipCarForm() {
+    this.carAdded = true;
+    this.goToStep(2);
   }
 
   onSubmit() {
     if (this.washRequestForm.valid) {
-      const formValue = this.washRequestForm.value;
-
-      // Convert location back to lat/lng for backend
-      const [latitude, longitude] = formValue.location.split(',').map((x: string) => parseFloat(x));
-
-      const payload = {
-        ...formValue,
-        latitude,
-        longitude
-      };
-
-      delete payload.location;
-
-      this.washRequestService.submitRequest(payload).subscribe({
+      this.washRequestService.submitRequest(this.washRequestForm.value).subscribe({
         next: () => {
-          this.successMessage = 'Wash Request Submitted!';
-          this.washRequestForm.reset();
+          this.successMessage = 'Wash request submitted!';
+          this.goToStep(3);
         },
-        error: () => this.errorMessage = 'Failed to submit wash request.'
+        error: () => this.errorMessage = 'Submission failed.'
       });
     }
   }
 }
+
 

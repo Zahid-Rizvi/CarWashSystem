@@ -19,6 +19,7 @@ export class SignupComponent {
   signupForm: FormGroup;
   loading = false;
   errorMessage: string = '';
+  selectedImageFile: File | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -30,11 +31,17 @@ export class SignupComponent {
       password: ['', Validators.required],
       name: ['', Validators.required],
       contactInfo: [''],
-      profilePicture: [''],
-      role: ['Customer', Validators.required], // default to Customer
+      role: ['Customer', Validators.required],
       latitude: [''],
       longitude: [''],
     });
+  }
+
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedImageFile = file;
+    }
   }
 
   get isWasher() {
@@ -44,12 +51,10 @@ export class SignupComponent {
   onSubmit() {
     this.errorMessage = '';
 
-    const formData = this.signupForm.value;
+    const formDataValues = this.signupForm.value;
+    const lat = parseFloat(formDataValues.latitude);
+    const lon = parseFloat(formDataValues.longitude);
 
-    const lat = parseFloat(formData.latitude);
-    const lon = parseFloat(formData.longitude);
-
-    // Enhanced validation for Washer
     if (
       this.signupForm.invalid ||
       (this.isWasher && (isNaN(lat) || isNaN(lon)))
@@ -58,29 +63,29 @@ export class SignupComponent {
       return;
     }
 
-    this.loading = true;
-
-    const signupPayload: any = {
-      email: formData.email,
-      password: formData.password,
-      name: formData.name,
-      role: formData.role,
-      profilePicture: formData.profilePicture || ''
-    };
-
-    if (formData.contactInfo) {
-      signupPayload.contactInfo = formData.contactInfo;
+    const formData = new FormData();
+    formData.append('email', formDataValues.email);
+    formData.append('password', formDataValues.password);
+    formData.append('name', formDataValues.name);
+    formData.append('role', formDataValues.role);
+    if (formDataValues.contactInfo) {
+      formData.append('contactInfo', formDataValues.contactInfo);
     }
 
     if (this.isWasher) {
-      signupPayload.latitude = lat;
-      signupPayload.longitude = lon;
+      formData.append('latitude', lat.toString());
+      formData.append('longitude', lon.toString());
     }
 
-    this.authService.signup(signupPayload).subscribe({
+    if (this.selectedImageFile) {
+      formData.append('profilePicture', this.selectedImageFile);
+    }
+
+    this.loading = true;
+
+    this.authService.signup(formData).subscribe({
       next: () => {
         this.loading = false;
-        console.log("SignUp is working fine")
         this.router.navigate(['/login']);
       },
       error: (err) => {

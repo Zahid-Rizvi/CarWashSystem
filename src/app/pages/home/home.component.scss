@@ -1,11 +1,50 @@
 @import "bootstrap/scss/bootstrap";
 @import '../../../styles/variables';
 
+hr{
+  border: 3px solid $gradient-end;
+  width: 60%; // Adjust width as needed
+  margin: 1.5rem auto; // Centers the HR
+  height: 0;
+}
+
+.notification-fab {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1050;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.notification-fab .badge {
+  font-size: 0.7rem;
+  padding: 0.3em 0.5em;
+}
+
+
+.notification-panel {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 320px;
+  max-height: 400px;
+  overflow-y: auto;
+  z-index: 1051;
+  border-radius: 0.75rem;
+}
 
 .home-wrapper {
-  background-color: #f0f9ff;
+  background-color: $light-bg;
   min-height: calc(100vh - 80px);
-  color: $light-text;
+  color: $text-primary;
+
 
   .row {
     min-height: 80vh;
@@ -14,6 +53,9 @@
   h1 {
     font-size: 3rem;
     line-height: 1.2;
+    font-family: $font-family-heading;
+    font-weight: 800;
+    color: $text-primary;
   }
 
   .gradient-text {
@@ -21,9 +63,10 @@
   }
 
   p {
-    color: $muted-text;
+    color: $text-secondary;
     font-size: 1.3rem;
     line-height: 1.6;
+    font-family: $font-family-base;
   }
 
   .btn {
@@ -42,7 +85,7 @@
       background: $cta-green;
       border: none;
       color: #000;
-      box-shadow: 0 4px 10px rgba(0, 230, 118, 0.3);
+      box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3); // Matches $cta-green
 
       &:hover {
         background: lighten($cta-green, 10%);
@@ -52,14 +95,15 @@
 
   .hero-image {
     max-width: 90%;
-    border: none;
     height: 500px;
+    border: none;
+    // Optional rounded effect
     // border-radius: 20rem;
     // box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
   }
 
   .left,
-  .right{
+  .right {
     width: 50%;
   }
 }
@@ -70,6 +114,12 @@
   padding-bottom: 1rem;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
+}
+
+.cthead{
+    border-bottom: 2px solid $gradient-start;
+    padding-bottom: 0.5rem;
+    display: inline-block;
 }
 
 .how-card {
@@ -83,8 +133,8 @@
   @include blue-glow;
 
   &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 0 20px $shadow-color;
+    border: 3px solid $border-color;
+    box-shadow: 0 0 20px blue;
   }
 
   i {
@@ -92,13 +142,15 @@
   }
 
   h5 {
-    font-weight: $heading-font-weight;
+    font-family: $font-family-heading;
+    font-weight: 800;
+    color: $text-primary;
     margin-bottom: 0.5rem;
   }
 
   p {
-    color: $muted-text;
+    color: $text-secondary;
     font-size: 0.95rem;
+    font-family: $font-family-base;
   }
 }
-
